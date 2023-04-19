@@ -4,15 +4,12 @@ import (
 	"github.com/robfig/cron"
 )
 
-func (h *Hanler) SetTimeFeedData() {
-	var (
-		err error
-		c   = cron.New()
-	)
+var c = cron.New()
+
+func (h *Handler) SetTimeFeedData() {
 	// Đặt lịch vào lúc 9h sáng
-	err = c.AddFunc("0 0 9 * * *", func() {
-		err = h.service.ArticlesServier.ListAndSaveArticles()
-		if err != nil {
+	err := c.AddFunc("0 0 9 * * *", func() {
+		if err := h.service.ArticlesServier.ListAndSaveArticles(); err != nil {
 			return
 		}
 	})
@@ -21,8 +18,7 @@ func (h *Hanler) SetTimeFeedData() {
 	}
 	// Đặt lịch 30 phút 1 lần
 	err = c.AddFunc("0 */30 * * * *", func() {
-		err = h.service.ArticlesServier.ListAndSaveArticles()
-		if err != nil {
+		if err = h.service.ArticlesServier.ListAndSaveArticles(); err != nil {
 			return
 		}
 	})
