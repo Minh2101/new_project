@@ -37,7 +37,7 @@ func (a *ArticleRepo) SaveArticles(articles *[]models.Article) error {
 				"url": article.URL,
 			}
 			//check exist articles
-			if err := collection.FindOne(context.Background(), filter).Decode(&article); err == nil {
+			if err := collection.FindOne(ctx, filter).Decode(&article); err == nil {
 				return
 			}
 			if _, err := collection.InsertOne(ctx, article); err != nil {
