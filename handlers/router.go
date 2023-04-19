@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *Hanler) InitRouter() *gin.Engine {
+func (h *Handler) InitRouter() *gin.Engine {
 	h.SetTimeFeedData()
 	router := gin.New()
 	api := router.Group("/api/")

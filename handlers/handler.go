@@ -5,17 +5,20 @@ import (
 	"new_project/services"
 )
 
-type Hanler struct {
+type Handler struct {
 	service *services.Service
 }
 
-func NewHandler(services *services.Service) *Hanler {
-	return &Hanler{
+func NewHandler(services *services.Service) *Handler {
+	return &Handler{
 		service: services,
 	}
 }
-func (h *Hanler) GetAllArticles(c *gin.Context) {
-	h.service.ArticlesServier.ListAndSaveArticles()
+func (h *Handler) GetAllArticles(c *gin.Context) {
+	err := h.service.ArticlesServier.ListAndSaveArticles()
+	if err != nil {
+		return
+	}
 	articles, err := services.ListArticles()
 	if err != nil {
 		return
