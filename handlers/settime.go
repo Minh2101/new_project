@@ -5,16 +5,30 @@ import (
 )
 
 func (h *Hanler) SetTimeFeedData() {
-	c := cron.New()
-
+	var (
+		err error
+		c   = cron.New()
+	)
 	// Đặt lịch vào lúc 9h sáng
-	c.AddFunc("0 0 9 * * *", func() {
-		h.service.ArticlesServier.ListAndSaveArticles()
+	err = c.AddFunc("0 0 9 * * *", func() {
+		err = h.service.ArticlesServier.ListAndSaveArticles()
+		if err != nil {
+			return
+		}
 	})
+	if err != nil {
+		return
+	}
 	// Đặt lịch 30 phút 1 lần
-	c.AddFunc("0 */30 * * * *", func() {
-		h.service.ArticlesServier.ListAndSaveArticles()
+	err = c.AddFunc("0 */30 * * * *", func() {
+		err = h.service.ArticlesServier.ListAndSaveArticles()
+		if err != nil {
+			return
+		}
 	})
+	if err != nil {
+		return
+	}
 
 	c.Start()
 }
